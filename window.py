@@ -60,7 +60,7 @@ class window(QWidget):
         name = dict['name']
         ty = dict['weather'][0]['main']
         if (ty == "Clear"):
-            pixmap = QPixmap('moon.png')
+            pixmap = QPixmap('img/moon.png')
             self.labeltype.setPixmap(pixmap.scaled(50, 50, transformMode=QtCore.Qt.SmoothTransformation))
             self.labeltype.resize(50,50)
         self.labelname.setText(name)
