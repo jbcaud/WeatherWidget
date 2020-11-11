@@ -1,2 +1,2 @@
 # WeatherWidget
-Small widget to display weather on the desktop.
+This is a small desktop widget that displays the current weather in a certain location.
