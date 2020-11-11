@@ -3,23 +3,23 @@ from PyQt5 import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-
+from fbs_runtime.application_context.PyQt5 import ApplicationContext, cached_property
 import requests
 import math
 
 class window(QWidget):
 
-    def __init__(self):
+    def __init__(self, ctx):
         QWidget.__init__(self)
-
+        self.ctx = ctx
         #set width and height of window
         self.width = 500
-        self.height = 500
+        self.height = 400
         self.setFixedWidth(self.width)
         self.setFixedHeight(self.height)
 
         #set background image
-        oImage = QImage("img/back1.jpg")
+        oImage = QPixmap.fromImage(self.ctx.back)
         sImage = oImage.scaled(QSize(self.width,self.height))
         palette = QPalette()
         palette.setBrush(QPalette.Window, QBrush(sImage))
@@ -76,24 +76,24 @@ class window(QWidget):
             time = QTime()
             #if it is after 6 PM, have moon pic
             if (time.currentTime().hour() > 18):
-                pixmap = QPixmap('img/moon.png')
+                pixmap = self.ctx.moon
             else: #otherwise use sun pic
-                pixmap = QPixmap('img/sun.png')
+                pixmap = self.ctx.sun
             self.labeltype.setPixmap(pixmap.scaled(ratiow, ratioh, transformMode=QtCore.Qt.SmoothTransformation))
         elif (ty == "Clouds"):
-            pixmap = QPixmap('img/cloudy.png')
+            pixmap = self.ctx.cloudy
             self.labeltype.setPixmap(pixmap.scaled(ratiow * 6/5, ratioh * 4.5/5, transformMode=QtCore.Qt.SmoothTransformation))
         elif (ty == "Rain" or ty == "Drizzle"):
-            pixmap = QPixmap('img/rainy.png')
+            pixmap = self.ctx.rainy
             self.labeltype.setPixmap(pixmap.scaled(ratiow * 6/5, ratioh * 5.5/5, transformMode=QtCore.Qt.SmoothTransformation))
         elif (ty == "Thunderstorm"):
-            pixmap = QPixmap('img/thunderstorm.png')
+            pixmap = self.ctx.thunderstorm
             self.labeltype.setPixmap(pixmap.scaled(ratiow * 6/5, ratioh * 5.5/5, transformMode=QtCore.Qt.SmoothTransformation))
         elif (ty == "Snow"):
-            pixmap = QPixmap('img/snow.png')
+            pixmap = self.ctx.snow
             self.labeltype.setPixmap(pixmap.scaled(ratiow * 6/5, ratioh * 5.5/5, transformMode=QtCore.Qt.SmoothTransformation))
         else:
-            pixmap = QPixmap('img/other.png')
+            pixmap = self.ctx.other
             self.labeltype.setPixmap(pixmap.scaled(ratiow * 6/5, ratioh * 4.5/5, transformMode=QtCore.Qt.SmoothTransformation))
 
         #set name and temperature labels
